@@ -413,13 +413,13 @@ tableArgExpr: nestedIdentifier | tableFunctionExpr | literal;
 databaseIdentifier: identifier;
 
 // Basics
-
+paramSlot: LBRACE identifier COLON columnTypeExpr RBRACE;
 floatingLiteral:
 	FLOATING_LITERAL
 	| DOT (DECIMAL_LITERAL | OCTAL_LITERAL)
 	| DECIMAL_LITERAL DOT (DECIMAL_LITERAL | OCTAL_LITERAL)?; // can't move this to the lexer or it will break nested tuple access: t.1.2
 numberLiteral: (PLUS | DASH)? (floatingLiteral | OCTAL_LITERAL | DECIMAL_LITERAL | HEXADECIMAL_LITERAL | INF | NAN_SQL);
-literal: numberLiteral | STRING_LITERAL | NULL_SQL;
+literal: numberLiteral | STRING_LITERAL | NULL_SQL | paramSlot;
 interval: SECOND | MINUTE | HOUR | DAY | WEEK | MONTH | QUARTER | YEAR;
 keyword: // except NULL_SQL, INF, NAN_SQL
 	AFTER
@@ -605,6 +605,6 @@ keywordForAlias: DATE | FIRST | ID | KEY;
 alias:
 	IDENTIFIER
 	| keywordForAlias; // |interval| can't be an alias, otherwise 'INTERVAL 1 SOMETHING' becomes ambiguous.
-identifier: IDENTIFIER | interval | keyword;
+identifier: IDENTIFIER | interval | keyword | paramSlot;
 identifierOrNull: identifier | NULL_SQL; // NULL_SQL can be only 'Null' here.
 enumValue: STRING_LITERAL EQ_SINGLE numberLiteral;

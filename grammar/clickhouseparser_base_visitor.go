@@ -819,6 +819,10 @@ func (v *BaseClickHouseParserVisitor) VisitDatabaseIdentifier(ctx *DatabaseIdent
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseClickHouseParserVisitor) VisitParamSlot(ctx *ParamSlotContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseClickHouseParserVisitor) VisitFloatingLiteral(ctx *FloatingLiteralContext) interface{} {
 	return v.VisitChildren(ctx)
 }
